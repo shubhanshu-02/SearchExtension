@@ -4,19 +4,19 @@ document.addEventListener('keydown', function(event) {
         let searchBar = findSearchBar() || triggerSearchBar();
         if (searchBar) {
             searchBar.focus();
+            console.log("input check");
         }
     }
 });
-
 function findSearchBar() {
     let searchBar = document.querySelector(
         'input[type="search"], input[type="text"], input[type="url"], ' +
-        'input[name="q"], input[name*="search"], input[id*="search"], input[placeholder*="Search"], ' +
-        'input[placeholder*="search"], input[title*="Search"], ' +
-        'textarea[placeholder*="Message ChatGPT"]' 
+        'input[aria-label*="Search"], input[placeholder*="Search"], input[title*="Search"], ' +
+        'textarea[aria-label*="Search"], textarea[placeholder*="Search"]'
     );
 
     if (!searchBar) {
+        // Fallback to forms with search buttons
         let forms = document.querySelectorAll('form');
         forms.forEach((form) => {
             if (!searchBar && form.querySelector('button[type="submit"], input[type="submit"]')) {
@@ -29,7 +29,8 @@ function findSearchBar() {
 }
 
 function triggerSearchBar() {
-    let searchButton = document.querySelector('button[aria-label*="search"], button[title*="Search"]');
+    let searchButton = document.querySelector('button[aria-label*="search"], button[title*="Search"], ' +
+                                              'button[aria-label*="Search mail"], button[title*="Search mail"]');  // Gmail example
     if (searchButton) {
         searchButton.click(); 
         return findSearchBar();
