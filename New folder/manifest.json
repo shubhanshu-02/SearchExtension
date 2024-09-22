@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Universal Search",
+    "version": "1.2",
+    "description": "Press '/' to focus on the search bar.",
+    "permissions": ["activeTab"],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
+  }
+  
