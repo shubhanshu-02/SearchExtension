@@ -1,35 +1,43 @@
 document.addEventListener('keydown', function(event) {
-    if (event.key === '/') {
-        event.preventDefault();  
+    let activeElement = document.activeElement;
+    
+    if (event.key === '/' && !isTyping(activeElement)) {
         let searchBar = findSearchBar() || triggerSearchBar();
         if (searchBar) {
+            event.preventDefault(); 
             searchBar.focus();
         }
     }
 });
 
+function isTyping(element) {
+    return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.isContentEditable;
+}
+
 function findSearchBar() {
     let searchBar = document.querySelector(
         'input[type="search"], input[aria-label*="Search"], input[placeholder*="Search"], input[title*="Search"], ' +
-        'textarea[aria-label*="Search"], textarea[placeholder*="Search"], textarea[title*="Search"]'
-    );
+        'input[type="text"], input[type="url"], input[class*="search"], input[id*="search"], ' +
+        'form[aria-label*="Search"], form[title*="Search"], form[role="search"], form[class*="search"], ' +
+        'div[role="search"], section[role="search"]'
+      );
+      
 
-    if (!searchBar) {
-        let form = document.querySelector('form:has(button[type="submit"], input[type="submit"])');
-        if (form) {
-            searchBar = form.querySelector('input[type="text"], input[type="search"], input[type="url"], textarea');
-        }
-    }
-
+    console.log(searchBar);
     return searchBar;
 }
 
 function triggerSearchBar() {
-    let searchButton = document.querySelector('button[aria-label*="search"], button[title*="Search"]');
-    
+    let searchButton = document.querySelector(
+        'button[aria-label*="search"], button[title*="Search"], ' +
+        'a[aria-label*="Search"] button, a[title*="Search"] button, ' +
+        'div[aria-label*="search"] button, div[title*="Search"] button, ' +
+        'span[aria-label*="Search"] button, span[title*="Search"] button'
+    );
+
     if (searchButton) {
         searchButton.click(); 
-        return findSearchBar(); 
+        return findSearchBar();  
     }
     return null;
 }
