@@ -16,26 +16,32 @@
             element.isContentEditable;
     }
 
+
     function findSearchBar() {
         let searchBar = document.querySelector(
-            'input[type="search"], input[type="text"], input[type="url"], ' +
-            'input[aria-label*="Search"], input[placeholder*="Search"] ' +
-            // 'input[name="q"], input[name*="search"], input[id*="search"], ' +
-            'input[placeholder*="search"], input[title*="Search"],input[class*="search"], input[aria-label*="search"]'
-            // ', ' +
-            // 'form[role="search"] input, div[role="search"] input'
+            'input[type="search"], ' +
+            'input[type="text"][aria-label*="search" i], ' +
+            'input[type="text"][placeholder*="search" i], ' +
+            'input[type="text"][name*="search" i], ' +
+            'input[type="text"][id*="search" i], ' +
+            'input[type="url"][aria-label*="search" i], ' +
+            'input[aria-label*="search" i], ' +
+            'input[placeholder*="search" i], ' +
+            'input[name*="search" i], ' +
+            'input[id*="search" i], ' +
+            'input[title*="search" i], ' +
+            'input[class*="search" i]'
         );
         
-        
-        if (searchBar) {
+        if (searchBar && window.getComputedStyle(searchBar).display !== 'none') {
             console.log('Search bar found:', searchBar);
+            return searchBar;
         } else {
             console.log('No search bar found');
+            return null;
         }
-
-        return searchBar;
     }
-
+    
     function triggerSearchBar() {
         let searchButton = document.querySelector(
             'a[href*="/search"], ' +
